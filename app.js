@@ -2,12 +2,21 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv=require('dotenv');
+const cors=require("cors");//frontend servers collide so for that
 dotenv.config();
 
 //its a class hence its Joi and not joi
 
 const { Mongoose } = require("mongoose");
 app.use(express.json());
+//to prevent frontend
+const corsOptions ={
+  origin:'*', 
+  credentials:true,            //access-control-allow-credentials:true
+  optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions));
 
 //to use x-www-form-urlencoded
 app.use(
@@ -23,6 +32,11 @@ const loginRoute=require('./routes/login');
 app.use('/login',loginRoute);
 const classRoute=require('./routes/class');
 app.use('/class',classRoute);
+
+app.get('/',(req, res) => {
+  res.json({"hello":"welcome"});
+  // res.send("hello");
+})
 
 mongoose.connect(
   process.env.DB_CONNECTION,

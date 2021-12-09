@@ -38,9 +38,9 @@ router.post("/", async (req, res) => {
       if (await bcrypt.compare(req.body.password, user.password)) {
         res.json(user);
         return;
-      }
+      }//my name is lakhan
     }
-    res.send("Wrong credentials");
+    res.status(401).send({message:"invalid"});
   } catch (e) {
     console.log(e);
   }
